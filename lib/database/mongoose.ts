@@ -7,7 +7,7 @@ interface MongooseConnection {
   promise: Promise<Mongoose> | null;
 }
 
-let cached: MongooseConnection = (global as any).mongoose
+let cached: MongooseConnection = (global as any).mongoose;
 
 if(!cached) {
   cached = (global as any).mongoose = { 
@@ -23,7 +23,8 @@ export const connectToDatabase = async () => {
   cached.promise = 
     cached.promise || 
     mongoose.connect(MONGODB_URL, { 
-      dbName: 'imaginify', bufferCommands: false 
+      dbName: 'imaginify', bufferCommands: false ,
+      connectTimeoutMS: 30000,
     })
 
   cached.conn = await cached.promise;
